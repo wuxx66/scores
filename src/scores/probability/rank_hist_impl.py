@@ -119,7 +119,7 @@ def rank_histogram(
     References:
         - Hamill, T. M. (2001). Interpretation of rank histograms for verifying ensemble forecasts. \
             Monthly Weather Review, 129(3), 550-560. \
-            https://doi.org/10.1175/1520-0493(2001)129<0550:IORHFV>2.0.CO;2
+            https://doi.org/dkkvh3
         - Talagrand, O. (1999). Evaluation of probabilistic prediction systems. \
             In Workshop proceedings "Workshop on predictability", 20-22 October 1997, ECMWF, Reading, UK.
 
@@ -131,11 +131,20 @@ def rank_histogram(
         Calculate and plot the rank histogram for an under-dispersive ensemble forecast:
 
         >>> import numpy as np
+        >>> import xarray as xr
         >>> from scipy.stats import norm
         >>> from scores.probability import rank_histogram
+        >>> np.random.seed(42)
+
         >>> fcst = xr.DataArray(norm.rvs(size=(500, 10)), dims=['time', 'ensemble'])
         >>> obs = xr.DataArray(norm.rvs(scale=2, size=(500)), dims=['time'])
-        >>> rank_relative_frequencies = rank_histogram(fcst, obs, ensemble_member_dim='ensemble')
+
+        >>> rank_histogram(fcst, obs, ens_member_dim='ensemble')
+        <xarray.DataArray (rank: 11)> Size: 88B
+        array([0.218, 0.098, 0.066, 0.046, 0.068, 0.056, 0.058, 0.06 , 0.046,
+               0.078, 0.206])
+        Coordinates:
+          * rank     (rank) int64 88B 1 2 3 4 5 6 7 8 9 10 11
     """
     weights_dims = None
     if weights is not None:

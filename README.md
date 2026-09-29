@@ -1,9 +1,9 @@
 # scores: Verification and Evaluation for Forecasts and Models
 
-[![DOI](https://joss.theoj.org/papers/10.21105/joss.06889/status.svg)](https://doi.org/10.21105/joss.06889) [![CodeQL](https://github.com/nci/scores/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/nci/scores/actions/workflows/github-code-scanning/codeql) [![Coverage Status](https://coveralls.io/repos/github/nci/scores/badge.svg)](https://coveralls.io/github/nci/scores) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nci/scores/main?labpath=tutorials%2FTutorial_Gallery.ipynb) [![PyPI Version](https://img.shields.io/pypi/v/scores.svg)](https://pypi.org/project/scores/) [![Conda Version](https://img.shields.io/conda/vn/conda-forge/scores.svg)](https://anaconda.org/conda-forge/scores)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.06889/status.svg)](https://doi.org/10.21105/joss.06889) [![CodeQL](https://github.com/nci/scores/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/nci/scores/actions/workflows/github-code-scanning/codeql) [![Coverage Status](https://coveralls.io/repos/github/nci/scores/badge.svg)](https://coveralls.io/github/nci/scores) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nci/scores/main?labpath=docs/tutorials/Tutorial_Gallery.ipynb) [![PyPI Version](https://img.shields.io/pypi/v/scores.svg)](https://pypi.org/project/scores/) [![Conda Version](https://img.shields.io/conda/vn/conda-forge/scores.svg)](https://anaconda.org/conda-forge/scores)
 
 >
-> **A list of over 60 metrics, statistical techniques and data processing tools contained in `scores` is [available here](https://scores.readthedocs.io/en/stable/included.html).**
+> **A list of over 75 metrics, statistical techniques and data processing tools contained in `scores` is [available here](https://scores.readthedocs.io/en/stable/included.html).**
 
 `scores` is a Python package containing mathematical functions for the verification, evaluation and optimisation of forecasts, predictions or models. It supports labelled n-dimensional (multidimensional) data, which is used in many scientific fields and in machine learning. At present, `scores` primarily supports the geoscience communities; in particular, the meteorological, climatological and oceanographic communities.
 
@@ -12,8 +12,7 @@ Source code: [github.com/nci/scores](https://github.com/nci/scores)
 Tutorial gallery: [available here](https://scores.readthedocs.io/en/stable/tutorials/Tutorial_Gallery.html)  
 Journal paper: [*scores: A Python package for verifying and evaluating models and predictions with xarray*](https://doi.org/10.21105/joss.06889)  
 
-**If you use `scores` for your work or a publication, [please cite](https://scores.readthedocs.io/en/stable/#acknowledging-or-citing-scores)
-both our [paper](https://doi.org/10.21105/joss.06889) and the [Zenodo record](https://doi.org/10.5281/zenodo.12697241) for the version of `scores` that you use.**
+**If you use `scores` for your work or a publication, [please cite](https://github.com/nci/scores#acknowledging-or-citing-scores) both our [paper](https://doi.org/10.21105/joss.06889) and the [Zenodo record](https://doi.org/10.5281/zenodo.12697241) for the version of `scores` that you use.**
 
 ## Overview
 
@@ -22,12 +21,13 @@ Below is a **curated selection** of the metrics, tools and statistical tests inc
 |                       	| **Description** 	| **Selection of Included Functions** 	|
 |-----------------------	|-----------------	|--------------	|
 | **[Continuous](https://scores.readthedocs.io/en/stable/included.html#continuous)**        	|Scores for evaluating single-valued continuous forecasts.                  	|E.g. MAE, MSE, RMSE, Bias, Pearson's Correlation Coefficient, Kling-Gupta Efficiency, NSE, Flip-Flop Index, Quantile Loss, Quantile Interval Score, Interval Score, and threshold weighted scores for expectiles, quantiles and Huber Loss. [See all.](https://scores.readthedocs.io/en/stable/included.html#continuous)             	|
-| **[Probability](https://scores.readthedocs.io/en/stable/included.html#probability)**        |Scores for evaluating forecasts that are expressed as predictive distributions, ensembles, and probabilities of binary events.                   |E.g. Brier Score, CRPS for CDFs and ensembles (including threshold weighted versions), and Isotonic Regression (reliability diagrams). [See all.](https://scores.readthedocs.io/en/stable/included.html#probability)               |
+| **[Probability](https://scores.readthedocs.io/en/stable/included.html#probability)**        |Scores for evaluating forecasts that are expressed as predictive distributions, ensembles, and probabilities of binary events.                   |E.g. Brier Score, PIT, CRPS for CDFs and ensembles (including threshold weighted versions), and Isotonic Regression (reliability diagrams). [See all.](https://scores.readthedocs.io/en/stable/included.html#probability)               |
 | **[Categorical](https://scores.readthedocs.io/en/stable/included.html#categorical)**       	|Scores for evaluating forecasts of categories.                	|E.g. 18 binary contingency table (confusion matrix) metrics, the FIxed Risk Multicategorical (FIRM) Score, the SEEPS score and the Risk Matrix Score. [See all.](https://scores.readthedocs.io/en/stable/included.html#categorical)               	|
 | **[Spatial](https://scores.readthedocs.io/en/stable/included.html#spatial)** 	|Scores that take into account spatial structure.                 	|Fractions Skill Score. [See all.](https://scores.readthedocs.io/en/stable/included.html#spatial)              	|
+| **[Dynamics](https://scores.readthedocs.io/en/stable/included.html#dynamics)** 	|Compute diagnostics based on dynamical properties.                 	|Energetics budget and Energetics exchanges. [See all.](https://scores.readthedocs.io/en/stable/included.html#dynamics)             	|
 | **[Statistical Tests](https://scores.readthedocs.io/en/stable/included.html#statistical-tests)** 	|Tools to conduct statistical tests and generate confidence intervals.                 	|Diebold Mariano. [See all.](https://scores.readthedocs.io/en/stable/included.html#statistical-tests)             	|
 | **[Processing Tools](https://scores.readthedocs.io/en/stable/included.html#processing-tools-for-preparing-data)**        	|Tools to pre-process data.                 	|E.g. Data matching, Discretisation, Block Bootstrapping, and Cumulative Density Function Manipulation. [See all.](https://scores.readthedocs.io/en/stable/included.html#processing-tools-for-preparing-data)              	|
-| **[Plotting Data](https://scores.readthedocs.io/en/stable/included.html#plotting-data)**        	|Tools to generate data for plotting.               	|ROC curves, Murphy diagrams, and Q-Q plots. [See all.](https://scores.readthedocs.io/en/stable/included.html#plotting-data)             	|
+| **[Plotting Data](https://scores.readthedocs.io/en/stable/included.html#plotting-data)**        	|Tools to generate data for plotting.	|ROC curves, Murphy diagrams, Q-Q plots, rank histograms, and relative economic value. [See all.](https://scores.readthedocs.io/en/stable/included.html#plotting-data)             	|
 | **[Emerging](https://scores.readthedocs.io/en/stable/included.html#emerging)**        	|Emerging scores that are still undergoing mathematical peer review. They may change in line with the peer review process.                 	| *Note - the Risk Matrix Score has recently been moved to 'categorical' following peer-reviewed publication*.            	|
 
 `scores` not only includes common scores (e.g., MAE, RMSE), it also includes novel scores not commonly found elsewhere (e.g., FIRM, Flip-Flop Index), complex scores (e.g., threshold weighted CRPS), and statistical tests (e.g., the Diebold Mariano test). Additionally, it provides pre-processing tools for preparing data for scores in a variety of formats including cumulative distribution functions (CDF). `scores` provides its own implementations where relevant to avoid extensive dependencies.
@@ -98,31 +98,32 @@ All metrics, statistical techniques and data processing tools in `scores` work w
 	- BibTeX:
 		```
 		@article{Leeuwenburg_scores_A_Python_2024,
-		author = {Leeuwenburg, Tennessee and Loveday, Nicholas and Ebert, Elizabeth E. and Cook, Harrison and Khanarmuei, Mohammadreza and Taggart, Robert J. and Ramanathan, Nikeeth and Carroll, Maree and Chong, Stephanie and Griffiths, Aidan and Sharples, John},
-		doi = {10.21105/joss.06889},
-		journal = {Journal of Open Source Software},
-		month = jul,
-		number = {99},
-		pages = {6889},
-		title = {{scores: A Python package for verifying and evaluating models and predictions with xarray}},
-		url = {https://joss.theoj.org/papers/10.21105/joss.06889},
-		volume = {9},
-		year = {2024}
+		author      = {Leeuwenburg, Tennessee and Loveday, Nicholas and Ebert, Elizabeth E. and Cook, Harrison and Khanarmuei, Mohammadreza and Taggart, Robert J. and Ramanathan, Nikeeth and Carroll, Maree and Chong, Stephanie and Griffiths, Aidan and Sharples, John},
+		doi         = {10.21105/joss.06889},
+		journal     = {Journal of Open Source Software},
+		month       = jul,
+		number      = {99},
+		pages       = {6889},
+		title       = {{scores: A Python package for verifying and evaluating models and predictions with xarray}},
+		url         = {https://joss.theoj.org/papers/10.21105/joss.06889},
+		volume      = {9},
+		year        = {2024}
 		}
 		```
 - **Please also cite the [Zenodo record](https://doi.org/10.5281/zenodo.12697241) for the version of `scores` that you used.**
-	- For example, below is the citation for Version 2.4.0 of `scores`:  
-	- Leeuwenburg, T., Loveday, N., Ramanathan, N., Chong, S., Taggart, R. J., Shrestha, D., Khanarmuei, M., Cook, H., Bluett, L., Ebert, E. E., Carroll, M., Trotta, B., Bishop, S., Squire, D. T., Griffiths, A., Pagano, T. C., Fisher, A. J., Mandelbaum, T., Jinghan, F., … Smallwood, J. (2026). scores: Metrics for the verification, evaluation and optimisation of forecasts, predictions or models (2.4.0). Zenodo. [https://doi.org/10.5281/zenodo.18242190](https://doi.org/10.5281/zenodo.18242190)
+	- Where possible, please include the version number, e.g. (Version 2.7.0), and the publisher (Zenodo).
+    - For example, below is the citation for Version 2.7.0 of `scores`:
+	- Leeuwenburg, T., Loveday, N., Ramanathan, N., Chong, S., Taggart, R. J., Shrestha, D., Khanarmuei, M., Cook, H., Bluett, L., Ebert, E. E., Carroll, M., Trotta, B., Sharples, J., Bishop, S., Squire, D. T., Griffiths, A., Pagano, T. C., Fisher, A. J., Mandelbaum, T., … Lee, D. (2026). *scores: Metrics for the verification, evaluation and optimisation of forecasts, predictions or models* (Version 2.7.0) [Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.22315715](https://doi.org/10.5281/zenodo.22315715)
 	- BibTeX:
 		```
-		@software{leeuwenburg_2026_18242190,
-  		author       = {Leeuwenburg, Tennessee and Loveday, Nicholas and Ramanathan, Nikeeth and Chong, Stephanie and Taggart, Robert J. and Shrestha, Durga and Khanarmuei, Mohammadreza and Cook, Harrison and Bluett, Liam and Ebert, Elizabeth E. and Carroll, Maree and Trotta, Belinda and Bishop, Sam and Squire, Dougal T. and Griffiths, Aidan and Pagano, Thomas C. and Fisher, A.J. and Mandelbaum, Taylor and Jinghan, Fu and Smith, Paul R. and Sharples, John and Abellan, Esteban and Smallwood, J.},
-  		title        = {scores: Metrics for the verification, evaluation and optimisation of forecasts, predictions or models},
-  		month        = jan,
-  		year         = 2026,
-  		publisher    = {Zenodo},
-  		version      = {2.4.0},
-  		doi          = {10.5281/zenodo.18242190},
-  		url          = {https://doi.org/10.5281/zenodo.18242190}
-		}
+		@software{leeuwenburg_2026_22315715,
+  		author      = {Leeuwenburg, Tennessee and Loveday, Nicholas and Ramanathan, Nikeeth and Chong, Stephanie and Taggart, Robert J. and Shrestha, Durga and Khanarmuei, Mohammadreza and Cook, Harrison and Bluett, Liam and Ebert, Elizabeth E. and Carroll, Maree and Trotta, Belinda and Sharples, John and Bishop, Sam and Squire, Dougal T. and Griffiths, Aidan and Pagano, Thomas C. and Fisher, A.J. and Mandelbaum, Taylor and Jinghan, Fu and Smith, Paul R. and Abellan, Esteban and Beunk, Jurian and Esperson, Felix and Smallwood, J. and Wu, Xiaoxi and Karney, Daniel and Morrison, Oisín M. and Lee, David},
+  		title       = {{scores: Metrics for the verification, evaluation and optimisation of forecasts, predictions or models},
+  		month       = sep,
+  		year        = 2026,
+  		publisher   = {Zenodo},
+  		version     = {2.7.0},
+  		doi         = {10.5281/zenodo.22315715},
+  		url         = {https://doi.org/10.5281/zenodo.22315715},
+        }
 		```

@@ -2,10 +2,8 @@
 Methods for the probability integral transform (PIT) classes Pit and PitFcstAtObs.
 
 The implementation follows the theoretical approach of Gneiting and Ranjan (2013) and
-Taggart (2023) (see https://nla.gov.au/nla.obj-3079961862/view
-http://www.bom.gov.au/research/publications/researchreports/BRR-064.pdf)
-which interprets the PIT of a forecast--observation pair as a CDF. Details of this
-approach are described in this docstring.
+Taggart (2023) (see https://nla.gov.au/nla.obj-3079961862/view) which interprets the PIT
+of a forecast--observation pair as a CDF. Details of this approach are described in this docstring.
 
 For a forecast--observation pair (G,y), where G is a CDF,
 the corresponding PIT value is the uniform distribution on the closed interval
@@ -184,23 +182,45 @@ class Pit:
     Examples:
         Calculate the PIT for an under-dispersive ensemble forecast, and calculate various diagnostics and statistics.
 
+        >>> import numpy as np
         >>> import xarray as xr
         >>> from scipy.stats import norm
         >>> from scores.probability import Pit
+        >>> np.random.seed(42)
+
         >>> # generate the forecasts and observations then calculate PIT
         >>> fcst = xr.DataArray(norm.rvs(size=(500, 10)), dims=['time', 'ensemble_member'])
         >>> obs = xr.DataArray(norm.rvs(scale=2, size=(500)), dims=['time'])
+
         >>> pit = Pit(fcst, obs, ensemble_member_dim='ensemble_member')
-        >>> # bar heights for a PIT histogram
-        >>> histogram_values = pit.hist_values(10)
+
         >>> # plot the CDF of the PIT distribution
-        >>> pit.plotting_points().plot()
+        >>> pit.plotting_points().plot() # doctest: +SKIP
+
+        >>> # bar heights for a PIT histogram
+        >>> pit.hist_values(10)
+        <xarray.DataArray (bin_centre: 10)> Size: 80B
+        array([0.316, 0.066, 0.046, 0.068, 0.056, 0.058, 0.06 , 0.046, 0.078,
+            0.206])
+        Coordinates:
+        * bin_centre          (bin_centre) float64 80B 0.05 0.15 0.25 ... 0.85 0.95
+            bin_left_endpoint   (bin_centre) float64 80B 0.0 0.1 0.2 0.3 ... 0.7 0.8 0.9
+            bin_right_endpoint  (bin_centre) float64 80B 0.1 0.2 0.3 0.4 ... 0.8 0.9 1.0
+
         >>> # the expected value of the PIT distribution
-        >>> pit_ev = pit.expected_value()
+        >>> pit.expected_value()
+        <xarray.DataArray ()> Size: 8B
+        array(0.4818)
+
         >>> # the variance of the PIT distribution
-        >>> pit_var = pit.variance()
+        >>> pit.variance()
+        <xarray.DataArray ()> Size: 8B
+        array(0.14940876)
+
         >>> # the alpha score of the PIT distribution
-        >>> pit_alpha = pit.alpha_score()
+        >>> pit.alpha_score()
+        <xarray.DataArray ()> Size: 8B
+        array(0.10262)
 
         Other examples are found in the ``scores`` tutorial for PIT.
     """
@@ -277,8 +297,10 @@ class Pit:
 
         Returns:
             dictionary of xarray objects with the following keys:
+
             - "x_plotting_position", containing :math:`x(t)` values
             - "y_plotting_position", containing :math:`y(t)` values
+
             with :math:`t` values in the "plotting_point" dimension.
         """
         return _get_plotting_points_param(self.left, self.right)
@@ -315,12 +337,20 @@ class Pit:
         """
         Returns the 'alpha score' (Renard, et. al., 2010), which is a measure of how close the
         PIT distribution :math:`F` is to the uniform distribution on the closed unit interval :math:`[0,1]`.
-        When ``negative_orientation=True``, the formula is for the alpha score is
-            :math:`\\int_0^1 |F(x) - x|\\,\\text{d}x,`
+        When ``negative_orientation=True``, the formula for the alpha score is
+
+        .. math::
+
+            \\int_0^1 |F(x) - x|\\,\\text{d}x,
+
         so that the lower the score, the closer :math:`F` is to the uniform distribution.
         In this case the alpha score takes values between 0 and 0.5.
-        When ``negative_orientation=False``, the formula is for the alpha score is
-            :math:`1 - 2 \\int_0^1 |F(x) - x|\\,\\text{d}x,`
+        When ``negative_orientation=False``, the formula for the alpha score is
+
+        .. math::
+
+            1 - 2 \\int_0^1 |F(x) - x|\\,\\text{d}x,
+
         so that the higher the score, the closer :math:`F` is to the uniform distribution.
         In this case the alpha score takes values between 0 and 1.
 
@@ -440,23 +470,44 @@ class PitFcstAtObs:
         >>> import xarray as xr
         >>> from scipy.stats import norm
         >>> from scores.probability import PitFcstAtObs
+
         >>> # observations generated from a normal distribution with
         >>> # mean 0 and standard deviation 2
-        >>> obs = xr.DataArray(norm.rvs(scale=2, size=(500)), dims=['time'])
+        >>> obs = xr.DataArray(norm.rvs(scale=2, size=500, random_state=42), dims=['time'])
+
         >>> # forecasts are normal distributions with mean 0 and standard deviation 1
         >>> # evaluate the forecast CDFs at the observations
         >>> fcst_at_obs = xr.DataArray(norm.cdf(obs), dims=['time'])
+
         >>> pit = PitFcstAtObs(fcst_at_obs)
+
         >>> # bar heights for a PIT histogram
-        >>> histogram_values = pit.hist_values(10)
+        >>> pit.hist_values(10)
+        <xarray.DataArray (bin_centre: 10)> Size: 80B
+        array([0.27 , 0.08 , 0.04 , 0.054, 0.048, 0.064, 0.054, 0.068, 0.072,
+               0.25 ])
+        Coordinates:
+          * bin_centre          (bin_centre) float64 80B 0.05 0.15 0.25 ... 0.85 0.95
+            bin_left_endpoint   (bin_centre) float64 80B 0.0 0.1 0.2 0.3 ... 0.7 0.8 0.9
+            bin_right_endpoint  (bin_centre) float64 80B 0.1 0.2 0.3 0.4 ... 0.8 0.9 1.0
+
         >>> # plot the CDF of the PIT distribution
-        >>> pit.plotting_points().plot()
+        >>> pit.plotting_points().plot() # doctest: +SKIP
+
         >>> # the expected value of the PIT distribution
-        >>> pit_ev = pit.expected_value()
+        >>> pit.expected_value()
+        <xarray.DataArray ()> Size: 8B
+        array(0.49760026)
+
         >>> # the variance of the PIT distribution
-        >>> pit_var = pit.variance()
+        >>> pit.variance()
+        <xarray.DataArray ()> Size: 8B
+        array(0.14587873)
+
         >>> # the alpha score of the PIT distribution
-        >>> pit_alpha = pit.alpha_score()
+        >>> pit.alpha_score()
+        <xarray.DataArray ()> Size: 8B
+        array(0.09965585)
 
         Other examples are found in the ``scores`` tutorial for PIT.
     """
@@ -506,8 +557,10 @@ class PitFcstAtObs:
 
         Returns:
             dictionary of xarray objects with the following keys:
+
             - "x_plotting_position", containing :math:`x(t)` values
             - "y_plotting_position", containing :math:`y(t)` values
+
             with :math:`t` values in the "plotting_point" dimension.
         """
         return _get_plotting_points_param(self.left, self.right)
@@ -545,12 +598,20 @@ class PitFcstAtObs:
         """
         Returns the 'alpha score' (Renard, et. al., 2010), which is a measure of how close the
         PIT distribution :math:`F` is to the uniform distribution on the closed unit interval :math:`[0,1]`.
-        When ``negative_orientation=True``, the formula is for the alpha score is
-            :math:`\\int_0^1 |F(x) - x|\\,\\text{d}x,`
+        When ``negative_orientation=True``, the formula for the alpha score is
+
+        .. math::
+
+            \\int_0^1 |F(x) - x|\\,\\text{d}x,
+
         so that the lower the score, the closer :math:`F` is to the uniform distribution.
         In this case the alpha score takes values between 0 and 0.5.
-        When ``negative_orientation=False``, the formula is for the alpha score is
-            :math:`1 - 2 \\int_0^1 |F(x) - x|\\,\\text{d}x,`
+        When ``negative_orientation=False``, the formula for the alpha score is
+
+        .. math::
+
+            1 - 2 \\int_0^1 |F(x) - x|\\,\\text{d}x,
+
         so that the higher the score, the closer :math:`F` is to the uniform distribution.
         In this case the alpha score takes values between 0 and 1.
 
@@ -732,8 +793,12 @@ def _pit_values_final_processing(
     # rescale CDFs so that their max value is 1.
     # This corrects for weights that don't sum to 1.
     cdf_right_max = pit_cdf_right.max("pit_x_value")
-    pit_cdf_right = pit_cdf_right / cdf_right_max
-    pit_cdf_left = pit_cdf_left / cdf_right_max
+    valid_max = cdf_right_max.notnull() & (cdf_right_max > 0)
+    safe_cdf_right_max = xr.where(valid_max, cdf_right_max, 1)
+    pit_cdf_right = pit_cdf_right / safe_cdf_right_max
+    pit_cdf_left = pit_cdf_left / safe_cdf_right_max
+    pit_cdf_right = pit_cdf_right.where(valid_max)
+    pit_cdf_left = pit_cdf_left.where(valid_max)
 
     return {"left": pit_cdf_left, "right": pit_cdf_right, "pit_uniform_endpoints": pit_values}
 
@@ -759,9 +824,12 @@ def _pit_values_for_ens(fcst: XarrayLike, obs: XarrayLike, ens_member_dim: str) 
         'uniform_endpoint', all dimensions in `obs` and all dimensions in `fcst`
         excluding `ens_member_dim`.
     """
-    ensemble_size = fcst.count(ens_member_dim).where(obs.notnull())
-    pit_lower = (fcst < obs).sum(ens_member_dim) / ensemble_size
-    pit_upper = (fcst <= obs).sum(ens_member_dim) / ensemble_size
+    ensemble_size = fcst.count(ens_member_dim)
+    obs_valid = obs.notnull()
+    divisor_valid = obs_valid & (ensemble_size > 0)
+    safe_ensemble_size = xr.where(divisor_valid, ensemble_size, 1)
+    pit_lower = ((fcst < obs).sum(ens_member_dim) / safe_ensemble_size).where(divisor_valid)
+    pit_upper = ((fcst <= obs).sum(ens_member_dim) / safe_ensemble_size).where(divisor_valid)
 
     pit_lower = pit_lower.assign_coords(uniform_endpoint="lower").expand_dims("uniform_endpoint")
     pit_upper = pit_upper.assign_coords(uniform_endpoint="upper").expand_dims("uniform_endpoint")
@@ -1510,11 +1578,20 @@ def _diagonal_intersection_points(param_plotting_points: dict) -> np.ndarray:
     """
     x_pos = param_plotting_points["x_plotting_position"]
     y_pos = param_plotting_points["y_plotting_position"]
+
+    diff_x = x_pos.diff("plotting_point")
+    diff_y = y_pos.diff("plotting_point")
+    nonzero_dx = diff_x != 0
+    safe_diff_x = xr.where(nonzero_dx, diff_x, 1)
+
     # gradient of chord AB where A(x_pos[i-1], y_pos[i-1]), B(x_pos[i], y_pos[i])
-    gradient = y_pos.diff("plotting_point") / x_pos.diff("plotting_point")
+    gradient = xr.where(nonzero_dx, diff_y / safe_diff_x, np.nan)
     # solution if there is a desired point of intersection, obtained by solving
     # simultaneous equations for equation of line AB with line x = y
-    x_solution = (y_pos - gradient * x_pos) / (1 - gradient)
+    denom = 1 - gradient
+    nonzero_denom = denom != 0
+    safe_denom = xr.where(nonzero_denom, denom, 1)
+    x_solution = xr.where(nonzero_dx & nonzero_denom, (y_pos - gradient * x_pos) / safe_denom, np.nan)
     # for x_solution to be of interest, require that  x_pos[i-1] < x_solution[i] < x_pos[i]
     x_solution = x_solution.where((x_solution < x_pos) & (x_solution > x_pos.shift(plotting_point=1)))
     x_solution = np.unique(x_solution.values.flatten())
@@ -1589,12 +1666,20 @@ def _variance_integral_term(plotting_points: XarrayLike) -> XarrayLike:
     diff_xs = x_values - x_shifted
     # difference in function values y_i = F(x[i])
     diff_ys = plotting_points - plotting_points.shift(pit_x_value=1)
+
+    nonzero = diff_xs != 0
+    safe_diff_xs = xr.where(nonzero, diff_xs, np.nan)
+
     # gradients m
-    m_values = diff_ys / diff_xs
+    m_values = xr.where(nonzero, diff_ys / safe_diff_xs, 0)
     # intercepts b_i
-    b_values = plotting_points - m_values * x_values
+    b_values = xr.where(nonzero, plotting_points - m_values * x_values, 0)
     # integral(t * (1 - F(t))) on the interval (x[i-1], x[i]), for each i, using calculus:
-    integral_i = (1 - b_values) * (x_values**2 - x_shifted**2) / 2 - m_values * (x_values**3 - x_shifted**3) / 3
+    integral_i = xr.where(
+        nonzero,
+        (1 - b_values) * (x_values**2 - x_shifted**2) / 2 - m_values * (x_values**3 - x_shifted**3) / 3,
+        0,
+    )
 
     integral = integral_i.sum("pit_x_value")
     # return NaN if NaN in function_values
